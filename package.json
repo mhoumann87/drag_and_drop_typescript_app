@@ -1,10 +1,11 @@
 {
-  "name": "starter_project",
+  "name": "drag_and_drop",
   "version": "1.0.0",
-  "description": "Starter project for typescript course",
+  "description": "Simple drag and drop app to keep track of your projects",
   "main": "dist/js/app.js",
   "scripts": {
-    "start": "tsc -w && dev-server"
+    "start": "dev-server",
+    "watch": "tsc -w"
   },
   "author": "Michael Houmann",
   "license": "ISC",
