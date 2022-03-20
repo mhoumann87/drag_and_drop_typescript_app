@@ -1,0 +1,14 @@
+{
+  "name": "starter_project",
+  "version": "1.0.0",
+  "description": "Starter project for typescript course",
+  "main": "dist/js/app.js",
+  "scripts": {
+    "start": "tsc -w && dev-server"
+  },
+  "author": "Michael Houmann",
+  "license": "ISC",
+  "devDependencies": {
+    "dev-server": "^0.2.0"
+  }
+}
