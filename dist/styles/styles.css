@@ -1,7 +1,7 @@
-// Custom Properties
+/* Custom Properties */
 
 :root {
-  // Colors
+  /* Colors */
   --clr-light: #d5dcf2;
   --clr-gray: #968fa6;
   --clr-dark-gray: #73635d;
@@ -9,7 +9,7 @@
   --clr-light-orange: #bf5b04;
   --clr-dark-orange: #c23a00;
 
-  // Fonts
+  /*   Fonts */
   --ff-sans-serif: 'Poppins', sans-serif;
   --ff-serif: 'Libre Baskerville', serif;
 
@@ -22,7 +22,7 @@
   --fs-700: 2rem;
   --fs-900: 3.5rem;
 }
-// reset
+/* reeset */
 *,
 *::before,
 *::after {
@@ -46,7 +46,7 @@ body {
   font-size: var(--fs400);
   background-color: var(--clr-light);
   color: var(--clr-dark-brown);
-  margin: 0;
+  margin: 1rem;
   min-height: 100vh;
 }
 
@@ -56,7 +56,7 @@ h2 {
   font-weight: var(--fw-light);
 }
 
-// base styles
+/* base styles */
 label,
 input,
 textarea {
