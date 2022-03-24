@@ -105,7 +105,7 @@ button:hover,
 button:active {
   background: var(--clr-dark-orange);
   border: none;
-  transform: scale(0.1);
+  transform: scale(1.05);
   transition: all 200ms;
 }
 
