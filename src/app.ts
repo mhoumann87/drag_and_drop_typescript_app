@@ -2,6 +2,16 @@
  * Project manager overview system made in an OOP style
  */
 
+// ? Interfaces
+interface Validatable {
+  value: string | number;
+  required?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  min?: number;
+  max?: number;
+}
+
 // ? Decorators
 function Autobind(
   _: any,
@@ -25,6 +35,49 @@ function Autobind(
   // Return the new descriptor with the binding
   return adjustedDescriptor;
 }
+
+// ? Global functions
+
+// ? Validate input
+const validate = (validatableInput: Validatable) => {
+  let isValid = true;
+
+  // Go through the items to validate
+  if (validatableInput.required) {
+    isValid = isValid && validatableInput.value.toString().trim().length !== 0;
+  }
+
+  if (
+    validatableInput.minLength != null &&
+    typeof validatableInput.value === 'string'
+  ) {
+    isValid =
+      isValid && validatableInput.value.length > validatableInput.minLength;
+  }
+
+  if (
+    validatableInput.maxLength != null &&
+    typeof validatableInput.value === 'string'
+  ) {
+    isValid =
+      isValid && validatableInput.value.length < validatableInput.maxLength;
+  }
+
+  if (
+    validatableInput.min != null &&
+    typeof validatableInput.value === 'number'
+  ) {
+    isValid = isValid && validatableInput.value > validatableInput.min;
+  }
+
+  if (
+    validatableInput.max != null &&
+    typeof validatableInput.value === 'number'
+  ) {
+    isValid = isValid && validatableInput.value < validatableInput.max;
+  }
+  return isValid;
+};
 
 // ? Classes
 //? Render the form on the web page
@@ -75,16 +128,62 @@ class ProjectInput {
   }
 
   // Method to get and validate user input
-  getAndValidateUserInput(): [string, string, number] {}
+  private getAndValidateUserInput(): [string, string, number] | void {
+    const enteredTitle = this.titleInputElement.value;
+    const enteredDescription = this.descriptionInputElement.value;
+    const enteredPeople = this.peopleInputElement.value;
 
-  // Function to get info from input element on submit
+    // Validate objects
+    const titleValidatable: Validatable = {
+      value: enteredTitle,
+      required: true,
+    };
+    const descriptionValidatable: Validatable = {
+      value: enteredDescription,
+      required: true,
+      minLength: 5,
+    };
+    const peopleValidatable: Validatable = {
+      value: +enteredPeople,
+      required: true,
+      min: 1,
+      max: 6,
+    };
+
+    if (
+      !validate(titleValidatable) ||
+      !validate(descriptionValidatable) ||
+      !validate(peopleValidatable)
+    ) {
+      alert('Invalid input - please try again');
+      return;
+    } else {
+      return [enteredTitle, enteredDescription, +enteredPeople];
+    }
+  }
+
+  // Method to clear the input fields
+  clearInputs() {
+    this.titleInputElement.value = '';
+    this.descriptionInputElement.value = '';
+    this.peopleInputElement.value = '';
+  }
+
+  // Method to get info from input element on submit
   // to get this method to work, we need bo bind the 'this'
   // we are using an autobind decorator
   @Autobind
   private submitHandler(event: Event) {
     event.preventDefault();
     // Get the user input
-    this.getAndValidateUserInput();
+    const userInput = this.getAndValidateUserInput();
+    // Check to see if we get the tuple (array in JS) as a return value
+    if (Array.isArray(userInput)) {
+      // deconstructing of the array
+      const [title, desc, people] = userInput;
+      console.log(title, desc, people);
+      this.clearInputs();
+    }
   }
 
   // Set up event listener for submit on form
