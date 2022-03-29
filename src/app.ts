@@ -81,6 +81,45 @@ const validate = (validatableInput: Validatable) => {
 
 // ? Classes
 
+//? Project state management class
+class ProjectState {
+  private listeners: any[] = [];
+  private projects: any[] = [];
+  private static instance: ProjectState;
+
+  private constructor() {}
+
+  // * Create a singleton, so we are sure to only have one instance of
+  // * the ProjectState
+  static getInstance() {
+    if (this.instance) {
+      return this.instance;
+    }
+    this.instance = new ProjectState();
+    return this.instance;
+  }
+
+  //* Set up an array of listeners
+  private addListener(listenerFn: Function) {
+    this.listeners.push(listenerFn);
+  }
+
+  addProject(title: string, description: string, numOfPeople: number) {
+    const newProject = {
+      id: (Math.random() * 100).toString(),
+      title,
+      description,
+      people: numOfPeople,
+    };
+
+    this.projects.push(newProject);
+  }
+}
+
+// * Initialize a new ProjectState as a global variable, so we can use it
+// * all over the project
+const projectState = ProjectState.getInstance();
+
 // ? Rendering the List
 class ProjectList {
   templateElement: HTMLTemplateElement;
@@ -220,7 +259,7 @@ class ProjectInput {
     if (Array.isArray(userInput)) {
       // deconstructing of the array
       const [title, desc, people] = userInput;
-      console.log(title, desc, people);
+      projectState.addProject(title, desc, people);
       this.clearInputs();
     }
   }
